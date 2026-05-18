@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Integration Strategy — Kids Matter Inc.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────── */
+:root {
+  --navy:      #0f2744;
+  --navy-mid:  #1a3a5c;
+  --blue:      #1d6fa4;
+  --blue-lt:   #3a8fbf;
+  --red:       #b83232;
+  --red-lt:    #e05252;
+  --gold:      #c8911a;
+  --gold-lt:   #f5c842;
+  --green:     #1b7a52;
+  --green-lt:  #27ae60;
+  --slate:     #4a5568;
+  --text:      #1a202c;
+  --muted:     #718096;
+  --border:    #e2e8f0;
+  --bg:        #f8fafc;
+  --surface:   #ffffff;
+  --surface2:  #f1f5f9;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+  --radius:    10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15.5px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(15,39,68,.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 56px;
+  padding: 0 2rem;
+}
+.topbar-brand {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  margin-right: 2rem;
+  white-space: nowrap;
+}
+.topbar-brand strong { color: #fff; }
+.topbar-links { display: flex; gap: 0.25rem; flex: 1; }
+.topbar-links a {
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.topbar-links a:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+.hero {
+  background: linear-gradient(160deg, var(--navy) 0%, #0d2035 50%, #1a1030 100%);
+  color: #fff;
+  padding: 7rem 2rem 5.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(29,111,164,.25) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(184,50,50,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(29,111,164,.25);
+  border: 1px solid rgba(58,143,191,.35);
+  color: #7ec8f0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin-bottom: 1.25rem;
+  color: #fff;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--gold-lt);
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,.65);
+  max-width: 620px;
+  margin-bottom: 3rem;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.hero-pills {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.hero-pill {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: .6rem 1.1rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,.7);
+}
+.hero-pill strong { display: block; color: #fff; font-size: 0.95rem; font-weight: 600; line-height: 1.2; }
+
+/* ─────────────────────────────────────────
+   TABLE OF CONTENTS
+───────────────────────────────────────── */
+.toc-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.toc-bar ul {
+  display: flex;
+  list-style: none;
+  gap: 0;
+  overflow-x: auto;
+}
+.toc-bar li a {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.toc-bar li a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+.toc-bar .toc-num {
+  width: 20px; height: 20px;
+  background: var(--surface2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--slate);
+}
+
+/* ─────────────────────────────────────────
+   SECTIONS
+───────────────────────────────────────── */
+section { padding: 5rem 0; }
+section:nth-child(odd) { background: var(--bg); }
+section:nth-child(even) { background: var(--surface); }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+
+.section-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.section-eyebrow::after {
+  content: '';
+  flex: 1;
+  max-width: 48px;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+.section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.section-lead {
+  font-size: 1rem;
+  color: var(--slate);
+  max-width: 680px;
+  margin-bottom: 3rem;
+  line-height: 1.75;
+}
+
+/* ─────────────────────────────────────────
+   PROGRAM CARDS
+───────────────────────────────────────── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.25rem; }
+
+.prog-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+  position: relative;
+  overflow: hidden;
+}
+.prog-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent, var(--blue));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.prog-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.prog-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 1.1rem;
+}
+.prog-card h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: .5rem;
+  line-height: 1.35;
+}
+.prog-card p { font-size: 0.85rem; color: var(--slate); line-height: 1.65; }
+
+/* ─────────────────────────────────────────
+   STATS ROW
+───────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.stat-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: .35rem;
+}
+.stat-label { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+
+/* ─────────────────────────────────────────
+   OPS TABLE
+───────────────────────────────────────── */
+.table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+thead tr { background: var(--navy); }
+thead th {
+  color: rgba(255,255,255,.85);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .85rem 1.1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f0f6ff; }
+tbody tr:nth-child(even) { background: var(--surface2); }
+tbody tr:nth-child(even):hover { background: #e8f0fc; }
+tbody td { padding: .85rem 1.1rem; color: var(--text); vertical-align: top; line-height: 1.55; }
+tbody td:first-child { font-weight: 600; color: var(--navy); white-space: nowrap; }
+
+/* ─────────────────────────────────────────
+   AI OPPORTUNITY PANELS
+───────────────────────────────────────── */
+.dept-block { margin-bottom: 3.5rem; }
+.dept-header {
+  display: flex;
+  align-items: center;
+  gap: .875rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.dept-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+.dept-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.opp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.opp-pane { padding: 1.4rem 1.5rem; }
+.opp-pane:first-child {
+  border-right: 1px solid var(--border);
+  background: #fafbfd;
+}
+.opp-pane-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.label-before { color: var(--slate); }
+.label-after { color: var(--green); }
+.opp-pane h4 {
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: .4rem;
+}
+.opp-pane p { font-size: 0.83rem; color: var(--slate); line-height: 1.6; }
+.tool-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #e8f0fc;
+  color: var(--blue);
+  border: 1px solid #b8d0ee;
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin-top: .6rem;
+  margin-right: 4px;
+}
+
+/* ─────────────────────────────────────────
+   CALLOUT BOX
+───────────────────────────────────────── */
+.callout {
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2.5rem;
+  margin: 2.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.callout-navy {
+  background: linear-gradient(135deg, var(--navy) 0%, #0d2035 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+.callout-navy h3 { color: #fff; font-size: 1.15rem; margin-bottom: .6rem; }
+.callout-navy p { color: rgba(255,255,255,.75); font-size: 0.9rem; line-height: 1.7; }
+.callout-amber {
+  background: linear-gradient(135deg, #7d4e00 0%, #5c3800 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+.callout-amber h3 { color: #ffd88a; font-size: 1.15rem; margin-bottom: .6rem; }
+.callout-amber p { color: rgba(255,255,255,.8); font-size: 0.9rem; line-height: 1.7; }
+.callout-green {
+  background: #effaf5;
+  border: 1px solid #a8dfc3;
+  border-left: 4px solid var(--green);
+}
+.callout-green h3 { color: var(--green); font-size: 1rem; margin-bottom: .5rem; }
+.callout-green p { color: #2d5a42; font-size: 0.88rem; line-height: 1.65; }
+.callout-red {
+  background: #fff8f8;
+  border: 1px solid #f5b8b8;
+  border-left: 4px solid var(--red);
+}
+.callout-red h3 { color: var(--red); font-size: 1rem; margin-bottom: .5rem; }
+.callout-red p { color: #5a2020; font-size: 0.88rem; line-height: 1.65; }
+
+/* ─────────────────────────────────────────
+   LLM GUIDE
+───────────────────────────────────────── */
+.guide-steps { display: flex; flex-direction: column; gap: 0; }
+.guide-step {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 0 1.5rem;
+  position: relative;
+}
+.guide-step::before {
+  content: '';
+  position: absolute;
+  left: 29px;
+  top: 60px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.guide-step:last-child::before { display: none; }
+.step-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2px;
+  z-index: 1;
+}
+.step-num {
+  width: 40px; height: 40px;
+  background: var(--navy);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px var(--bg);
+}
+.step-body {
+  padding: 0 0 3rem 0;
+}
+.step-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: .5rem;
+  padding-top: 8px;
+}
+.step-body p { font-size: 0.9rem; color: var(--slate); line-height: 1.7; margin-bottom: .75rem; }
+
+.code-block {
+  background: #0f1923;
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.8rem;
+  color: #a8d8ea;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  margin-top: .75rem;
+  border: 1px solid rgba(255,255,255,.06);
+}
+.code-block .comment { color: #4a6670; }
+.code-block .highlight { color: #f5c842; }
+.code-block .good { color: #6ee7b7; }
+
+.compare-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: .75rem; }
+.compare-bad { background: #fff5f5; border: 1px solid #fecaca; border-left: 3px solid var(--red); border-radius: 8px; padding: .9rem 1rem; }
+.compare-good { background: #f0fdf6; border: 1px solid #bbf7d0; border-left: 3px solid var(--green); border-radius: 8px; padding: .9rem 1rem; }
+.compare-label-bad { font-size: 0.66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: .35rem; }
+.compare-label-good { font-size: 0.66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: .35rem; }
+.compare-text { font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.5; color: var(--text); }
+
+/* ─────────────────────────────────────────
+   PRIVACY SECTION
+───────────────────────────────────────── */
+.privacy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 2rem 0; }
+.privacy-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.privacy-card h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: .6rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.privacy-card p, .privacy-card li {
+  font-size: 0.84rem;
+  color: var(--slate);
+  line-height: 1.65;
+}
+.privacy-card ul { list-style: none; padding: 0; }
+.privacy-card li {
+  padding: .3rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+}
+.privacy-card li:last-child { border-bottom: none; }
+.privacy-card li::before { content: '→'; color: var(--muted); flex-shrink: 0; font-size: 0.75rem; margin-top: 3px; }
+
+.risk-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.84rem; }
+.risk-table thead tr { background: #1a1a2e; }
+.risk-table thead th { color: rgba(255,255,255,.8); padding: .7rem 1rem; text-align: left; font-weight: 600; font-size: 0.73rem; text-transform: uppercase; letter-spacing: .06em; }
+.risk-table tbody tr { border-bottom: 1px solid var(--border); }
+.risk-table tbody tr:hover { background: #f8f9fc; }
+.risk-table tbody td { padding: .8rem 1rem; vertical-align: top; line-height: 1.5; }
+.risk-pill { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 12px; }
+.risk-high { background: #fee2e2; color: #b91c1c; }
+.risk-med { background: #fef3c7; color: #92400e; }
+.risk-low { background: #dcfce7; color: #166534; }
+
+/* ─────────────────────────────────────────
+   VERDICT BLOCK
+───────────────────────────────────────── */
+.verdict-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.verdict-card {
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  border: 1px solid var(--border);
+}
+.verdict-card .verdict-icon { font-size: 1.5rem; margin-bottom: .6rem; }
+.verdict-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: .4rem; }
+.verdict-card p { font-size: 0.82rem; line-height: 1.6; }
+.verdict-safe { background: #f0fdf6; border-color: #bbf7d0; }
+.verdict-safe h4 { color: var(--green); }
+.verdict-safe p { color: #2d5a42; }
+.verdict-caution { background: #fffbeb; border-color: #fde68a; }
+.verdict-caution h4 { color: #92400e; }
+.verdict-caution p { color: #78350f; }
+.verdict-avoid { background: #fff8f8; border-color: #fecaca; }
+.verdict-avoid h4 { color: var(--red); }
+.verdict-avoid p { color: #7f1d1d; }
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,.45);
+  text-align: center;
+  padding: 3rem 2rem;
+  font-size: 0.82rem;
+  line-height: 2;
+}
+footer strong { color: rgba(255,255,255,.8); }
+footer a { color: rgba(255,255,255,.35); text-decoration: none; }
+
+@media (max-width: 700px) {
+  .opp-card { grid-template-columns: 1fr; }
+  .opp-pane:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  .compare-pair { grid-template-columns: 1fr; }
+  .privacy-grid { grid-template-columns: 1fr; }
+  .guide-step { grid-template-columns: 44px 1fr; }
+  .topbar-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════ -->
+<nav class="topbar">
+  <div class="topbar-brand"><strong>Kids Matter Inc.</strong> · AI Strategy</div>
+  <div class="topbar-links">
+    <a href="#about">About KMI</a>
+    <a href="#operations">Operations</a>
+    <a href="#opportunities">AI Opportunities</a>
+    <a href="#llm-guide">LLM Guide</a>
+    <a href="#privacy">Privacy & Legality</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">AI Integration Strategy Report</div>
+    <h1>Putting <em>Modern AI</em><br>to Work at Kids Matter Inc.</h1>
+    <p class="hero-sub">A practical roadmap for using AI to reduce administrative burden, serve more families, and protect sensitive information — prepared specifically for the Kids Matter Inc. team in Milwaukee, WI.</p>
+    <div class="hero-pills">
+      <div class="hero-pill"><strong>Kids Matter Inc.</strong>Milwaukee, WI</div>
+      <div class="hero-pill"><strong>May 2026</strong>Strategy Report</div>
+      <div class="hero-pill"><strong>Audience</strong>Staff &amp; Leadership</div>
+      <div class="hero-pill"><strong>Focus</strong>AI Modernization</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-bar">
+  <ul>
+    <li><a href="#about"><span class="toc-num">01</span> About KMI</a></li>
+    <li><a href="#operations"><span class="toc-num">02</span> Daily Operations</a></li>
+    <li><a href="#opportunities"><span class="toc-num">03</span> AI Opportunities</a></li>
+    <li><a href="#llm-guide"><span class="toc-num">04</span> LLM Guide</a></li>
+    <li><a href="#privacy"><span class="toc-num">05</span> Privacy &amp; Legality</a></li>
+  </ul>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 01 — ABOUT KMI
+══════════════════════════════════════ -->
+<section id="about">
+<div class="container">
+  <div class="section-eyebrow">Section 01</div>
+  <h2 class="section-title">Who is Kids Matter Inc.?</h2>
+  <p class="section-lead">Before exploring AI tools, we grounded every recommendation in what KMI actually does. The goal is simple: give staff more time for the families they serve.</p>
+
+  <div class="callout callout-navy">
+    <h3>"Because every child needs someone in their corner."</h3>
+    <p>Founded in 2000, Kids Matter Inc. is a Milwaukee-based nonprofit that advocates for abused, neglected, and at-risk children across Wisconsin. They serve kinship caregivers, foster families, trauma survivors, youth aging out of the system, and families navigating child crime — all services offered completely free of charge. They hold a 4-star Charity Navigator rating and are recognized as a Top-Rated nonprofit by Great Nonprofits.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val">100+</div><div class="stat-label">Active CASA Volunteers in Milwaukee County</div></div>
+    <div class="stat-box"><div class="stat-val">4 ★</div><div class="stat-label">Charity Navigator Rating</div></div>
+    <div class="stat-box"><div class="stat-val">Free</div><div class="stat-label">All services — no cost to families</div></div>
+    <div class="stat-box"><div class="stat-val">25+</div><div class="stat-label">Years serving Wisconsin children</div></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="prog-card" style="--accent:#1d6fa4;">
+      <div class="prog-icon" style="background:#e8f2fb;">⚖️</div>
+      <h3>CASA — Court Appointed Special Advocates</h3>
+      <p>KMI manages Milwaukee County's entire CASA program. Trained volunteers are appointed by judges to independently investigate abuse and neglect cases and write court reports that directly shape outcomes for children — often the first report a judge reads.</p>
+    </div>
+    <div class="prog-card" style="--accent:#1b7a52;">
+      <div class="prog-icon" style="background:#e6f7f0;">🏥</div>
+      <h3>Fostering Healing</h3>
+      <p>A multidisciplinary team — therapists, legal advocates, social workers, and resource specialists — supports children and kinship caregivers through trauma-focused therapy (TF-CBT), legal representation, school placement, and crisis counseling.</p>
+    </div>
+    <div class="prog-card" style="--accent:#b83232;">
+      <div class="prog-icon" style="background:#fceaea;">📋</div>
+      <h3>Legal Navigation for Families</h3>
+      <p>KMI guides kinship caregivers — grandparents, aunts, uncles, siblings, family friends — through guardianship filings, power of attorney, foster care processes, and ICWA compliance in plain language.</p>
+    </div>
+    <div class="prog-card" style="--accent:#c8911a;">
+      <div class="prog-icon" style="background:#fdf5e6;">🧒</div>
+      <h3>Child Safety Education</h3>
+      <p>An extensive public library covering types of abuse, mandatory reporting obligations, trafficking awareness, trauma recovery, and victim rights — serving the broader Milwaukee community and beyond.</p>
+    </div>
+    <div class="prog-card" style="--accent:#6c3483;">
+      <div class="prog-icon" style="background:#f5eefb;">🎂</div>
+      <h3>Birthday Buddy Program</h3>
+      <p>Foster and kinship youth receive birthday bags — a small but deeply human program ensuring every child in the system feels recognized and celebrated on their special day.</p>
+    </div>
+    <div class="prog-card" style="--accent:#2e7d9e;">
+      <div class="prog-icon" style="background:#e6f4f8;">🎓</div>
+      <h3>Youth Transition Support</h3>
+      <p>For teens aging out of foster care: guidance on housing, postsecondary education, college funding, health care power of attorney, and navigating independent adult life — a population often left behind by the system.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 02 — OPERATIONS
+══════════════════════════════════════ -->
+<section id="operations">
+<div class="container">
+  <div class="section-eyebrow">Section 02</div>
+  <h2 class="section-title">What Does the Staff Do Every Day?</h2>
+  <p class="section-lead">Based on KMI's programs, here is a realistic picture of recurring tasks across each role — the daily activities where time is lost and where AI can most directly help.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Common Daily Tasks</th>
+          <th>Time Intensity</th>
+          <th>AI Potential</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CASA Coordinators</td>
+          <td>Volunteer onboarding, case matching, training tracking, reviewing court reports, court communication</td>
+          <td>🔴 Very High</td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>CASA Volunteers</td>
+          <td>Child &amp; family interviews, court report writing, hearing attendance, case documentation, resource research</td>
+          <td>🔴 Very High</td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Therapists / Clinicians</td>
+          <td>TF-CBT sessions, session notes, treatment planning, crisis counseling, school/caseworker coordination, funder documentation</td>
+          <td>🔴 Very High</td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Legal Advocates</td>
+          <td>Family intake calls, guardianship guidance, legal document prep, court prep, research on state statutes</td>
+          <td>🟠 High</td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Resource Specialists</td>
+          <td>Connecting families to housing, childcare, financial assistance; navigating government systems; compiling resource lists</td>
+          <td>🟠 High</td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Communications / Admin</td>
+          <td>Newsletters, social media, donor emails, event coordination, website updates</td>
+          <td>🟡 Moderate</td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Executive / Development</td>
+          <td>Grant applications, compliance reports to funders, board presentations, program impact tracking</td>
+          <td>🔴 Very High</td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 03 — AI OPPORTUNITIES
+══════════════════════════════════════ -->
+<section id="opportunities">
+<div class="container">
+  <div class="section-eyebrow">Section 03</div>
+  <h2 class="section-title">Where AI Can Help — Right Now</h2>
+  <p class="section-lead">Concrete, actionable AI use cases organized by department. Each entry shows the current manual work and exactly how AI transforms it. Start with one or two areas — you don't need to adopt everything at once.</p>
+
+  <!-- CASA -->
+  <div class="dept-block">
+    <div class="dept-header">
+      <span class="dept-tag" style="background:#e8f2fb; color:#1d6fa4; border:1px solid #b3d4f0;">⚖️ CASA Program</span>
+      <span class="dept-name">Court Advocacy &amp; Volunteer Management</span>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Writing Court Reports</h4>
+        <p>Volunteers compile interviews from children, families, teachers, and social workers into a formal court report. This is the most time-consuming part of the role — often 4+ hours per report.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>AI-Assisted Report Drafting</h4>
+        <p>The volunteer pastes raw notes into Claude with a prompt. Claude organizes them into the correct court report structure, drafts a recommendations section, and flags gaps. What takes 4 hours becomes 45 minutes. The volunteer reviews and personalizes — they remain the author.</p>
+        <span class="tool-chip">Claude / ChatGPT</span>
+        <span class="tool-chip">Custom Prompt Template</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Volunteer Training Documentation</h4>
+        <p>Coordinators create and update training materials manually. Information gets fragmented across emails, PDFs, and conversations. New volunteers have no easy way to get answers at 10pm before their first case visit.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>24/7 AI Training Assistant</h4>
+        <p>Upload existing training documents to a Claude Project as a knowledge base. Volunteers ask questions in plain English and get instant, accurate answers — drawn from KMI's own materials. Coordinators stop fielding repetitive questions.</p>
+        <span class="tool-chip">Claude Projects</span>
+        <span class="tool-chip">Internal Knowledge Base</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Community Resource Research</h4>
+        <p>Staff spend hours finding what resources — tutoring, mental health services, food assistance, housing — exist for a specific child's situation, age, zip code, and eligibility.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>Instant Resource Lookup &amp; Summaries</h4>
+        <p>Claude can research Milwaukee County resources by need type and generate a formatted list with contact info and eligibility notes in minutes. Maintained as an internal database that any staff member can query.</p>
+        <span class="tool-chip">Claude + Web Search</span>
+        <span class="tool-chip">Resource Database</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clinical -->
+  <div class="dept-block">
+    <div class="dept-header">
+      <span class="dept-tag" style="background:#e6f7f0; color:#1b7a52; border:1px solid #a0dfc0;">🏥 Fostering Healing / Clinical</span>
+      <span class="dept-name">Therapy, Trauma Services &amp; Case Management</span>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Clinical Session Notes</h4>
+        <p>Therapists write detailed notes after every session — required for documentation, billing, and continuity of care. Each note can take 20–40 minutes, cutting directly into time available for clients.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>Note Drafting from Bullet Points</h4>
+        <p>The therapist jots 4–5 bullet points after a session and asks Claude to expand them into a SOAP or DAP-format clinical note. Final result in under 5 minutes. <strong>Critical: only use case codes, never real client names or identifiers.</strong> See the Privacy section for full guidance.</p>
+        <span class="tool-chip">Claude</span>
+        <span class="tool-chip">SOAP/DAP Format Prompt</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Family Intake Summaries</h4>
+        <p>After a new family calls, staff conduct an intake interview and then write a summary to hand off to the appropriate team member — a process that must be thorough but happens under time pressure.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>Instant Intake Summary Generation</h4>
+        <p>Staff type or paste their intake notes and ask Claude: "Summarize this in 3 paragraphs — primary concerns, immediate needs, and recommended next steps." Clean, consistent handoff document in seconds. Every family gets the same thorough treatment.</p>
+        <span class="tool-chip">Claude</span>
+        <span class="tool-chip">Standard Intake Prompt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal -->
+  <div class="dept-block">
+    <div class="dept-header">
+      <span class="dept-tag" style="background:#fef5e7; color:#c8911a; border:1px solid #f0c882;">📋 Legal &amp; Family Navigation</span>
+      <span class="dept-name">Guardianship, Foster Care &amp; Resource Guidance</span>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Repetitive Family Questions</h4>
+        <p>Staff receive dozens of calls per week asking the same questions: "How do I file for guardianship?" "Do I qualify for kinship support?" "What rights do I have as a grandparent?" Each call takes 20–40 minutes.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>Website FAQ Assistant Powered by KMI Content</h4>
+        <p>A chatbot trained on KMI's 100+ pages of legal guides and FAQs answers routine questions instantly — 24/7. Families in crisis at midnight get answers. Staff only handle complex or unique situations.</p>
+        <span class="tool-chip">Custom AI Chatbot</span>
+        <span class="tool-chip">KMI Website Knowledge</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Communications -->
+  <div class="dept-block">
+    <div class="dept-header">
+      <span class="dept-tag" style="background:#f0f4ff; color:#3a5bad; border:1px solid #b3c4f0;">📣 Communications &amp; Development</span>
+      <span class="dept-name">Fundraising, Grants, Newsletters &amp; Social Media</span>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Monthly Newsletter</h4>
+        <p>Writing, assembling, and editing the monthly newsletter takes hours — often falling to a single overworked staff member who must find stories, write copy, and get it right in tone and length.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>Draft in KMI's Voice from Bullet Points</h4>
+        <p>Staff provide 5–8 bullet points of this month's highlights. Claude drafts a complete newsletter in KMI's warm, mission-driven tone. 3 hours of work becomes 30 minutes. Staff review, adjust one or two lines, and send.</p>
+        <span class="tool-chip">Claude with Brand Context</span>
+        <span class="tool-chip">Newsletter Prompt Template</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Grant Writing</h4>
+        <p>Grant applications are among the highest-stakes, most time-intensive tasks for nonprofit staff. Each funder asks unique questions while requiring the same core narrative to be restated in different ways.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>AI-Accelerated Grant Narratives</h4>
+        <p>Staff describe their programs and outcomes; Claude drafts compelling grant sections. It also adapts a core narrative for different funders — adjusting emphasis and tone without starting from scratch. Grant writing time typically drops 60–70%.</p>
+        <span class="tool-chip">Claude + Prior Grant Uploads</span>
+        <span class="tool-chip">Outcome Data Input</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-pane">
+        <div class="opp-pane-label label-before">Current Task</div>
+        <h4>Social Media Content</h4>
+        <p>Creating consistent, engaging posts around awareness dates, events, volunteer spotlights, and impact stories requires creative bandwidth that small nonprofits rarely have.</p>
+      </div>
+      <div class="opp-pane">
+        <div class="opp-pane-label label-after">AI Solution</div>
+        <h4>Monthly Content Calendar — Generated in Minutes</h4>
+        <p>Provide Claude with the month's events and key messages. It produces a 30-day content calendar with captions for Facebook and Instagram, hashtag recommendations, and ideas for awareness days (National Foster Care Month, Child Abuse Prevention Month, etc.).</p>
+        <span class="tool-chip">Claude</span>
+        <span class="tool-chip">Buffer / Hootsuite Scheduling</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 04 — LLM GUIDE
+══════════════════════════════════════ -->
+<section id="llm-guide">
+<div class="container">
+  <div class="section-eyebrow">Section 04</div>
+  <h2 class="section-title">How to Talk to an AI — A Beginner's Guide</h2>
+  <p class="section-lead">Using Claude or ChatGPT is like giving instructions to a brilliant new volunteer who just walked in the door. They don't know your organization, your tone, or your clients — but brief them well, and they do extraordinary work. Here's exactly how.</p>
+
+  <div class="callout callout-navy" style="margin-bottom: 3rem;">
+    <h3>The Golden Rule</h3>
+    <p>You are not using a search engine — you are having a conversation with a collaborator. The more context you give about who you are, what you need, and what the output is for, the better the result. One extra sentence of context can transform a generic response into something that feels written specifically for Kids Matter Inc.</p>
+  </div>
+
+  <div class="guide-steps">
+
+    <div class="guide-step">
+      <div class="step-marker"><div class="step-num">1</div></div>
+      <div class="step-body">
+        <h3>Always tell Claude who you are and what you're trying to accomplish</h3>
+        <p>Don't ask a standalone question. Start by explaining your role, your organization, and what the output will be used for. This single habit is the biggest lever beginner users can pull.</p>
+        <div class="compare-pair">
+          <div class="compare-bad">
+            <div class="compare-label-bad">❌ Too vague</div>
+            <div class="compare-text">Write a social media post about foster care.</div>
+          </div>
+          <div class="compare-good">
+            <div class="compare-label-good">✅ Strong prompt</div>
+            <div class="compare-text">You are helping Kids Matter Inc., a Milwaukee nonprofit supporting kinship and foster families. Our tone is warm, hopeful, and community-focused. Write a Facebook post for National Foster Care Month celebrating our 100+ CASA volunteers. Include a call to volunteer. Under 200 words, end with 3 hashtags.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-step">
+      <div class="step-marker"><div class="step-num">2</div></div>
+      <div class="step-body">
+        <h3>Specify the format and length you want</h3>
+        <p>Claude will choose a length that seems reasonable — unless you specify otherwise. Always say how long, in what format, and how many options you want.</p>
+        <div class="code-block"><span class="highlight">Draft a grant narrative for the CASA program.</span>
+<span class="comment">- Format: 3 paragraphs, no bullet points</span>
+<span class="comment">- Tone: professional but accessible, not overly formal</span>
+<span class="comment">- Length: 400–500 words</span>
+<span class="comment">- Focus on: volunteer impact, children served, and outcomes</span>
+<span class="comment">- Use [X] as a placeholder wherever I need to fill in numbers</span></div>
+      </div>
+    </div>
+
+    <div class="guide-step">
+      <div class="step-marker"><div class="step-num">3</div></div>
+      <div class="step-body">
+        <h3>Set up a "Claude Project" — your organization's permanent context</h3>
+        <p>In claude.ai, a <strong>Project</strong> is a workspace where Claude always remembers who you are before every conversation. Think of it as a staff handbook that Claude reads automatically each time you open a chat.</p>
+        <div class="code-block"><span class="highlight">HOW TO SET UP YOUR PROJECT:</span>
+
+<span class="good">1. Go to claude.ai → click "Projects" in the left sidebar
+2. Click "New Project" → name it "Kids Matter Inc."
+3. In the Project Instructions box, paste something like:</span>
+
+<span class="comment">---</span>
+You are an AI assistant for Kids Matter Inc., a nonprofit
+in Milwaukee, WI that supports kinship and foster families.
+
+Our programs: CASA volunteer advocacy, Fostering Healing
+(trauma therapy + legal help), Birthday Buddy Program,
+and legal navigation for families.
+
+Our tone: warm, hopeful, accessible. Avoid jargon.
+Audience varies: families in crisis, judges, funders,
+and the general public. Always handle child trauma topics
+with care and sensitivity.
+<span class="comment">---</span>
+
+<span class="good">4. Every conversation in this Project starts with that
+   context automatically — you never have to re-explain.</span></div>
+      </div>
+    </div>
+
+    <div class="guide-step">
+      <div class="step-marker"><div class="step-num">4</div></div>
+      <div class="step-body">
+        <h3>Upload documents directly — don't retype what already exists</h3>
+        <p>Claude can read PDFs, Word documents, and spreadsheets. Instead of describing a document, simply attach it and ask Claude to work with it. This is one of the most powerful but underused features.</p>
+        <div class="code-block"><span class="highlight">Examples of what you can upload and ask Claude to do:</span>
+
+📄 Upload last year's annual report →
+   <span class="good">"Write a 2-paragraph funder update using the outcome
+   data in this report. Focus on children served and
+   volunteer hours."</span>
+
+📊 Upload a spreadsheet of volunteer hours →
+   <span class="good">"Summarize these hours by month and write 3 sentences
+   highlighting our most impactful quarter."</span>
+
+📝 Upload an existing grant application →
+   <span class="good">"Adapt this narrative for a new funder focused on
+   trauma-informed care. Adjust references from
+   Milwaukee County to statewide impact."</span></div>
+      </div>
+    </div>
+
+    <div class="guide-step">
+      <div class="step-marker"><div class="step-num">5</div></div>
+      <div class="step-body">
+        <h3>Treat the first response as a draft — ask for revisions freely</h3>
+        <p>The first response is never the last word. Iteration is normal and expected. Don't accept a result that doesn't feel right — just tell Claude what to change in plain English.</p>
+        <div class="code-block"><span class="highlight">After getting a draft, try:</span>
+
+<span class="good">"Make this shorter and more emotional — less formal."
+"The second paragraph doesn't sound like us. Rewrite
+ it to feel warmer and more personal."
+"Add a fictional composite story of a child helped
+ by a CASA volunteer."
+"Give me 3 different versions of the opening line."
+"This is too long for an email — condense to 150 words."</span></div>
+      </div>
+    </div>
+
+    <div class="guide-step">
+      <div class="step-marker"><div class="step-num">6</div></div>
+      <div class="step-body">
+        <h3>Build a shared "Prompt Library" — reusable recipes for your whole team</h3>
+        <p>Once a prompt works well, save it in a shared Google Doc. Over time this becomes your team's AI toolbox — anyone can copy, paste, and get great results immediately, without needing to be an AI expert.</p>
+        <div class="code-block"><span class="highlight">SAMPLE PROMPT LIBRARY ENTRIES:</span>
+
+<span class="comment">── COURT REPORT DRAFT ──</span>
+You are helping a CASA volunteer at Kids Matter Inc.
+write a court report for Milwaukee County Children's Court.
+Organize the notes below into: Background, Current Situation,
+Child's Expressed Wishes, Volunteer Observations,
+and Recommendations. Formal but readable language.
+
+Interview notes: [paste notes here]
+
+<span class="comment">── DONOR THANK YOU EMAIL ──</span>
+Write a warm, 3-sentence thank you email to a donor who
+just gave $250 to Kids Matter Inc. Reference that their
+gift supports CASA volunteers who advocate for children
+in foster care. Sign off: "The Kids Matter Team."
+
+<span class="comment">── FACEBOOK — VOLUNTEER SPOTLIGHT ──</span>
+Write a 150-word Facebook post spotlighting a CASA volunteer.
+Details: [paste here]. Call to action to volunteer.
+Warm, community tone. End with #KidsMatter #CASA #Milwaukee</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 05 — PRIVACY & LEGALITY
+══════════════════════════════════════ -->
+<section id="privacy">
+<div class="container">
+  <div class="section-eyebrow">Section 05</div>
+  <h2 class="section-title">Privacy, Legality &amp; AI — What You Need to Know</h2>
+  <p class="section-lead">This is the most important section in the report. Before any staff member uses an AI tool with real client or organizational information, they should understand exactly what happens to that data, what the law says, and where the clear lines are. These concerns are legitimate and deserve a thorough, honest answer.</p>
+
+  <div class="callout callout-amber">
+    <h3>⚠️ The Short Answer to "Is It Safe?"</h3>
+    <p>It depends entirely on <strong>what information you share</strong> and <strong>which tool you use</strong>. AI tools like Claude and ChatGPT are powerful allies for drafting, writing, and organizing internal work. But they are not automatically HIPAA-compliant, and real client names, case details, and identifying information should never be entered into a standard consumer account. This section tells you exactly where the lines are — and how to stay on the right side of them.</p>
+  </div>
+
+  <!-- How AI handles data -->
+  <h3 style="font-size:1.2rem; font-weight:700; color:var(--navy); margin: 2.5rem 0 1rem;">What Actually Happens to Information You Share with an AI?</h3>
+  <p style="color:var(--slate); font-size:0.9rem; line-height:1.75; margin-bottom:1.5rem;">When you type something into Claude or ChatGPT, it travels to the company's servers, gets processed, and a response is generated. What happens <em>after</em> that varies significantly by provider and account type — which is why it matters which tool you use and how you use it.</p>
+
+  <div class="privacy-grid">
+    <div class="privacy-card">
+      <h4>🤖 Standard Consumer Accounts (Free &amp; Basic Paid Plans)</h4>
+      <p style="margin-bottom:.75rem;">On a standard personal account at claude.ai or chat.openai.com:</p>
+      <ul>
+        <li>Your conversations may be reviewed by human staff for safety and quality purposes</li>
+        <li>Your inputs may be used to improve the model's future training, depending on your settings</li>
+        <li>Data is stored on the provider's servers for a period of time</li>
+        <li><strong>These accounts are NOT appropriate for real client names, case numbers, or sensitive personal information</strong></li>
+      </ul>
+    </div>
+    <div class="privacy-card">
+      <h4>🔒 Enterprise &amp; API Accounts</h4>
+      <p style="margin-bottom:.75rem;">On Anthropic's Claude for Work (Teams/Enterprise) or OpenAI's Enterprise plan:</p>
+      <ul>
+        <li>Your conversations are <strong>not used for model training</strong> by default</li>
+        <li>Human review of conversations is prohibited or heavily restricted</li>
+        <li>Data retention policies are controlled and can be customized</li>
+        <li>These plans are designed for organizational use with stronger privacy protections</li>
+        <li>Neither is automatically HIPAA-compliant without a Business Associate Agreement (BAA)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HIPAA Section -->
+  <h3 style="font-size:1.2rem; font-weight:700; color:var(--navy); margin: 2.5rem 0 1rem;">HIPAA and Child Welfare Privacy Laws — What Applies to KMI?</h3>
+  <p style="color:var(--slate); font-size:0.9rem; line-height:1.75; margin-bottom:1.5rem;">Kids Matter Inc. handles sensitive health and child welfare information daily. Multiple laws govern how that information must be protected:</p>
+
+  <div class="privacy-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="privacy-card">
+      <h4>⚕️ HIPAA</h4>
+      <p>Applies to any "protected health information" (PHI) — this includes therapy session details, mental health diagnoses, treatment plans, and medical information for children in your care. Using a standard AI tool with PHI is a HIPAA violation. An enterprise AI tool with a signed <strong>Business Associate Agreement (BAA)</strong> can be compliant.</p>
+    </div>
+    <div class="privacy-card">
+      <h4>👶 FERPA</h4>
+      <p>Applies to student education records. If KMI receives school records as part of a CASA investigation or educational advocacy, those records are covered. Do not paste a child's IEP, disciplinary records, or school assessment into a standard AI tool.</p>
+    </div>
+    <div class="privacy-card">
+      <h4>⚖️ Wisconsin Child Welfare Laws</h4>
+      <p>Wisconsin Statute Chapter 938 and DCF rules protect the confidentiality of children in out-of-home care. Case information, court records, and child welfare data may not be shared outside authorized channels — which generally does not include third-party AI platforms without explicit data agreements.</p>
+    </div>
+  </div>
+
+  <!-- Meeting Transcription Section -->
+  <h3 style="font-size:1.2rem; font-weight:700; color:var(--navy); margin: 2.5rem 0 1rem;">Can We Use AI to Transcribe Internal Meetings?</h3>
+
+  <div class="callout callout-red" style="margin-bottom:1.5rem;">
+    <h3>🎙️ Meeting Transcription: Proceed with Real Caution</h3>
+    <p>This is the area where organizations most commonly make mistakes that create legal and ethical risk. Here is the full picture — the concerns are real, but there are safe ways to use transcription tools.</p>
+  </div>
+
+  <div class="privacy-grid">
+    <div class="privacy-card">
+      <h4>⚠️ Legal Concerns — Wisconsin Wiretapping Law</h4>
+      <p style="margin-bottom:.75rem;">Wisconsin is a <strong>one-party consent state</strong> for recording — meaning you generally only need one person in the conversation to consent to recording. However:</p>
+      <ul>
+        <li>All participants should be <strong>notified</strong> at the start of the call that it is being recorded or transcribed, even if only one-party consent is technically required</li>
+        <li>Recording a meeting where a <strong>client or family member</strong> is present requires their explicit informed consent — especially for minors</li>
+        <li>For meetings involving attorneys, court officials, or sensitive case discussions, consult KMI's legal counsel before using transcription</li>
+        <li>Recordings stored by a third-party AI company (like Otter.ai or Fireflies.ai) are governed by that company's data policies — those records may be stored, reviewed, or used in ways KMI cannot control</li>
+      </ul>
+    </div>
+    <div class="privacy-card">
+      <h4>🔐 What to Do Instead — Safer Alternatives</h4>
+      <ul>
+        <li><strong>Internal admin meetings only:</strong> Transcription of purely internal staff meetings (budgets, scheduling, general coordination) carries minimal risk if all staff are notified and the tool has strong privacy policies</li>
+        <li><strong>Local-only transcription:</strong> Tools like <strong>Whisper (offline)</strong> run entirely on your own computer — no data ever leaves. Safest for sensitive content</li>
+        <li><strong>Summarize notes, don't transcribe:</strong> Write rough bullet-point notes during a meeting, then ask Claude to organize and expand them into meeting minutes — without ever recording audio or sharing a full transcript</li>
+        <li><strong>Never transcribe client or family sessions</strong> without a specific signed authorization from the client, legal guardian, and KMI's attorney. Therapy sessions have additional protections under Wisconsin privilege laws</li>
+        <li>If using a cloud transcription tool for internal meetings, review that tool's BAA availability and data retention policies first</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Risk Table -->
+  <h3 style="font-size:1.2rem; font-weight:700; color:var(--navy); margin: 2.5rem 0 1rem;">Risk Level by Information Type — Quick Reference</h3>
+  <div class="table-wrap">
+    <table class="risk-table">
+      <thead>
+        <tr>
+          <th>Type of Information</th>
+          <th>Examples</th>
+          <th>Risk Level</th>
+          <th>Safe AI Use?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>General organizational content</td>
+          <td>Newsletter drafts, grant narratives (no client data), social media posts, internal policies, meeting notes with no PII</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>✅ Yes — safe to use standard Claude/ChatGPT</td>
+        </tr>
+        <tr>
+          <td>Anonymized case descriptions</td>
+          <td>Session notes using only case codes (not names), general program descriptions, anonymized outcomes data</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>✅ Yes — with anonymization best practices followed</td>
+        </tr>
+        <tr>
+          <td>Internal staff meeting recordings</td>
+          <td>Budget discussions, scheduling, general coordination — no client data present</td>
+          <td><span class="risk-pill risk-med">Medium</span></td>
+          <td>⚠️ Caution — notify all participants; avoid cloud tools without strong privacy agreements</td>
+        </tr>
+        <tr>
+          <td>Volunteer training questions</td>
+          <td>"What do I do if a child discloses abuse?" — hypothetical questions about processes</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>✅ Yes — no identifying information involved</td>
+        </tr>
+        <tr>
+          <td>Protected Health Information (PHI)</td>
+          <td>Therapy session notes with client names, mental health diagnoses, treatment plans with identifiers</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>🚫 No — requires enterprise account with signed BAA, or local-only tools</td>
+        </tr>
+        <tr>
+          <td>Child welfare case records</td>
+          <td>CASA case details with child/family names, court records, DCF documentation, case numbers linked to individuals</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>🚫 No — protected under Wisconsin child welfare law; do not enter into any AI tool without legal counsel review</td>
+        </tr>
+        <tr>
+          <td>Client meeting or therapy session recordings</td>
+          <td>Audio/video recordings of any session where a client or child is present</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>🚫 No — requires explicit written consent and legal review before any AI transcription</td>
+        </tr>
+        <tr>
+          <td>School or education records</td>
+          <td>IEPs, report cards, disciplinary records for children in care</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>🚫 No — FERPA protected; do not share with AI tools</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Safe Use Verdicts -->
+  <h3 style="font-size:1.2rem; font-weight:700; color:var(--navy); margin: 2.5rem 0 1rem;">The Three Zones of AI Use at KMI</h3>
+  <div class="verdict-grid">
+    <div class="verdict-card verdict-safe">
+      <div class="verdict-icon">✅</div>
+      <h4>Green Zone — Use Freely</h4>
+      <p>Grant writing, newsletters, social media, donor emails, volunteer training Q&amp;A, meeting minutes from internal admin meetings (no client info), resource research, anonymized session note drafts using only case codes.</p>
+    </div>
+    <div class="verdict-card verdict-caution">
+      <div class="verdict-icon">⚠️</div>
+      <h4>Yellow Zone — Proceed with Care</h4>
+      <p>Summarizing internal staff meetings (notify all participants, use a tool with strong privacy terms), creating composite/fictional case examples for training materials, drafting forms that <em>could</em> later be used with client names.</p>
+    </div>
+    <div class="verdict-card verdict-avoid">
+      <div class="verdict-icon">🚫</div>
+      <h4>Red Zone — Do Not Use Without Legal Review</h4>
+      <p>Any real client names, case numbers, or child identifiers. Actual therapy session notes with PHI. Recordings of any session involving a client or family member. Court records or DCF documentation. School records for children in care.</p>
+    </div>
+  </div>
+
+  <!-- Practical Steps -->
+  <h3 style="font-size:1.2rem; font-weight:700; color:var(--navy); margin: 2.5rem 0 1rem;">Practical Steps KMI Can Take Right Now</h3>
+  <div class="privacy-grid">
+    <div class="privacy-card">
+      <h4>📋 Create a Simple AI Use Policy</h4>
+      <ul>
+        <li>One-page internal document that defines Green/Yellow/Red zone uses</li>
+        <li>Specifies which AI tools are approved (and at what plan level)</li>
+        <li>Requires anonymization before any case-adjacent information is used</li>
+        <li>Sets a review schedule (update annually as AI laws evolve)</li>
+        <li>Does not require legal expertise to create — Claude can draft a first version from this document</li>
+      </ul>
+    </div>
+    <div class="privacy-card">
+      <h4>🔑 Consider an Enterprise Account</h4>
+      <ul>
+        <li>Claude for Work (Teams plan) and ChatGPT Enterprise both offer stronger data protections — conversations are not used for training, human review is restricted</li>
+        <li>Costs are modest for a small organization (~$25–30/user/month)</li>
+        <li>For anything touching health data, request a Business Associate Agreement (BAA) from the provider before proceeding</li>
+        <li>Anthropic offers BAAs for enterprise customers — ask your account representative</li>
+      </ul>
+    </div>
+    <div class="privacy-card">
+      <h4>🧠 Train All Staff Before They Start</h4>
+      <ul>
+        <li>A 30-minute staff session covering this Privacy section is enough to set safe habits from the beginning</li>
+        <li>The biggest risk isn't that AI is dangerous — it's that well-meaning staff accidentally share more than they should because no one told them not to</li>
+        <li>Post the three-zone Green/Yellow/Red guide in a shared team folder for easy reference</li>
+        <li>Designate one staff member as the AI point of contact for questions</li>
+      </ul>
+    </div>
+    <div class="privacy-card">
+      <h4>⚖️ Consult Legal Counsel on One Question</h4>
+      <ul>
+        <li>Ask KMI's attorney to review whether your specific use of AI for session note drafts (using case codes only, no names) requires a BAA or falls under existing data handling policies</li>
+        <li>This is a one-time consultation, not an ongoing burden</li>
+        <li>The field is evolving — Wisconsin and federal guidance on AI in healthcare settings is actively being developed as of 2025–2026</li>
+        <li>Being proactive now protects the organization from liability later</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <h3>✅ The Bottom Line</h3>
+    <p>AI is a genuine, powerful tool for organizations like Kids Matter Inc. — and the privacy concerns, while real, are manageable with clear guidelines. The risk is not from AI itself, but from using it without a framework. The organizations that benefit most from AI are the ones that set simple, clear rules early and train their team once. Everything in the Green Zone can start today. The Yellow and Red Zones simply require a bit more care — and most of KMI's highest-value AI uses fall squarely in the Green Zone.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <strong>AI Integration Strategy Report — Kids Matter Inc.</strong><br>
+  Prepared May 2026 · Research based on kidsmatterinc.org and nonprofit AI best practices<br><br>
+  Kids Matter Inc. · 1850 N Dr. MLK Jr. Drive, Suite 202, Milwaukee, WI 53212 · (414) 344-1220<br>
+  <a href="https://www.kidsmatterinc.org">www.kidsmatterinc.org</a>
+</footer>
+
+</body>
+</html>
